@@ -70,9 +70,33 @@ fourCorners <- function(x) {
         # identify the top 3 pixel intensities
         top <- unique(t(df[100,head(order(df[100,3:786], decreasing = TRUE),3)+2]))
         # convert columns 3 through 786 to a 28 x 28 matrix
-        m <- matrix(df[100,3:786], nrow = 28, ncol = 28, byrow = TRUE)
+        m <- matrix(t(df[100,3:786]), nrow = 28, ncol = 28, byrow = TRUE)
                 # find the first column to have one of the top 3 pixel intensities
-                
+                for (w in 1:dim(m)[2]) {
+                        if (any(m[,w] %in% top)) {
+                                break
+                        }
+                }
+                leftMost <- w
+                for (e in dim(m)[2]:1) {
+                        if (any(m[,e] %in% top)) {
+                                break
+                        }
+                }
+                rightMost <- e
+                for (n in 1:dim(m)[1]) {
+                        if (any(m[n,] %in% top)) {
+                                break
+                        }
+                }
+                upperMost <- n
+                for (s in dim(m)[1]:1) {
+                        if (any(m[s,] %in% top)) {
+                                break
+                        }
+                }
+                lowerMost <- s
+        
                 
                 # find the last column to have one of the top 3 pixel intensities
                 # find the first row to have one of the top 3 pixel intensities
@@ -83,3 +107,4 @@ fourCorners <- function(x) {
         # calculate the distance between the upperMost and LowerMost
 
 # for a given row, convert columns 3 through 786 to an image
+image(matrix(t(df[900,3:786]), 28, 28))
